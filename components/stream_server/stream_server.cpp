@@ -1,10 +1,8 @@
 #include "stream_server.h"
-
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
 #include "esphome/core/util.h"
 #include "esphome/core/version.h"
-
 #include "esphome/components/network/util.h"
 #include "esphome/components/socket/socket.h"
 
@@ -48,6 +46,9 @@ void StreamServerComponent::loop() {
 
 void StreamServerComponent::dump_config() {
     ESP_LOGCONFIG(TAG, "Stream Server:");
+#if ESPHOME_VERSION_CODE >= VERSION_CODE(2026, 10, 0)                                                                                                        
+    char address_buf[esphome::network::USE_ADDRESS_BUFFER_SIZE];                                                                                             
+    ESP_LOGCONFIG(TAG, "  Address: %s:%u", esphome::network::get_use_address_to(address_buf), this->port_);
 #if ESPHOME_VERSION_CODE >= VERSION_CODE(2025, 11, 0)
     ESP_LOGCONFIG(TAG, "  Address: %s:%u", esphome::network::get_use_address(), this->port_);
 #else
